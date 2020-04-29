@@ -10,7 +10,7 @@ import {
   Input,
 } from "reactstrap";
 import { connect } from "react-redux";
-import { addItem } from "../actions/itemActions";
+import { addItem } from "../actions/item.actions";
 
 class ItemModal extends Component {
   state = {

@@ -1,23 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const db = require("./config/keys").mongoURI;
 const path = require("path");
 
 const ItemsRoute = require("./routes/api/items.route");
+const AuthRoute = require("./routes/api/auth.route");
 
 const app = express();
 
 dotenv.config();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // connect to DB
 mongoose
   .connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log("Successfully connected to DB...");
@@ -27,6 +29,7 @@ mongoose
   });
 // Use routes
 app.use("/api/v1/items", ItemsRoute);
+app.use("/api/v1/auth", AuthRoute);
 
 // Serve static assets if we are in production
 if (process.env.NODE_ENV === "production") {
